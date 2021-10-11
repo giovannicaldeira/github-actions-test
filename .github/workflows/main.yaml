@@ -20,4 +20,3 @@ jobs:
 
       - name: Running test
         run: make docker/test 
-        
