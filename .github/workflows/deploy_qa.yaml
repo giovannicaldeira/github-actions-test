@@ -1,19 +1,21 @@
 name: main
 on:
-  push:
+  pull_request:
     branches:
       - master
+    types: [closed]
 
 jobs:
   deploy_qa:
-    name: "Run Tests"
+    name: "Deploy QA"
     runs-on: ubuntu-18.04
+    if: github.event.pull_request.merged == true
     steps:
-      - run: echo "Running build and test for ${{ github.ref }} branch"
+      - run: echo "Running deploy qa for ${{ github.ref }} branch"
       - name: Check out repository code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       
       - name: Docker image Version
         id: "version-vars"
