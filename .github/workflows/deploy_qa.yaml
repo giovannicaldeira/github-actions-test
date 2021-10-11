@@ -5,6 +5,9 @@ on:
       - master
     types: [closed]
 
+
+    
+
 jobs:
   deploy_qa:
     name: "Deploy QA"
