@@ -1,4 +1,4 @@
-name: main
+name: Deploy to QA
 on:
   pull_request:
     branches:
