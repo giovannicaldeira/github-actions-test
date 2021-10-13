@@ -1,0 +1,36 @@
+name: Deploy to Prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "vivareal/image docker image version"
+        required: true
+      changes:
+        description: "The modifications mades in these deploy"
+        required: true
+
+jobs:
+  deploy_prod:
+    name: "Deploy Prod"
+    runs-on: ubuntu-18.04
+    steps:
+      - run: echo "Running deploy prod for ${{ github.ref }} branch"
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Build project
+        run: make docker/build
+
+      - name: Running lint/bandit/check-packages
+        run: make docker/verify
+
+      - name: Running test
+        run: make docker/test 
+
+      - name: Deploy project
+        env:
+          VERSION: ${{ github.event.inputs.version }}
+        run: make deploy
